@@ -3,15 +3,18 @@ import Board from "./Board.js";
 import "./App.css";
 
 export default function App() {
-    const x = 7,
-        y = 6;
-    const b = Array(x)
-        .fill(0)
-        .map(() => Array(y).fill(0));
+    const x = 7;
+    const y = 6;
+    const arr = Array(x)
+        .fill("O")
+        .map(() => Array(y).fill("O"));
+
+    const empty = "O";
+
     const [board, setBoard] = useState([]);
 
     useEffect(() => {
-        setBoard(b);
+        setBoard(arr);
     }, []);
 
     let turn = "X";
@@ -19,7 +22,7 @@ export default function App() {
     function updateBoard(i) {
         let newBoard = [...board];
         for (let j = newBoard[i].length - 1; j >= 0; j--) {
-            if (newBoard[i][j] === 0) {
+            if (newBoard[i][j] === empty) {
                 newBoard[i][j] = turn;
                 break;
             }
@@ -29,7 +32,7 @@ export default function App() {
     }
 
     return (
-        <div className='board'>
+        <div className='connect4'>
             <Board board={board} updateBoard={updateBoard} />
         </div>
     );

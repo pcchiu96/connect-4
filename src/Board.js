@@ -12,12 +12,12 @@ export default function Board({ board, updateBoard }) {
         });
     }
 
-    function generateHeight(board, j) {
-        return board.map((column, index) => {
+    function generateHeight(column, index) {
+        return column.map(token => {
             return (
                 <>
-                    <button value={j} onClick={handleClick}>
-                        {column}
+                    <button value={index} onClick={handleClick}>
+                        {token}
                     </button>
                     <br />
                 </>
