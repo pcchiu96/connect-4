@@ -1,5 +1,4 @@
 import React from "react";
-import Square from "./Square";
 
 export default function Board({ board, updateBoard }) {
     function generateColumns(board) {
@@ -16,7 +15,7 @@ export default function Board({ board, updateBoard }) {
         return column.map(token => {
             return (
                 <>
-                    <button value={index} onClick={handleClick}>
+                    <button className='square' value={index} onClick={handleClick}>
                         {token}
                     </button>
                     <br />
