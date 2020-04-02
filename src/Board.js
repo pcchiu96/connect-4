@@ -26,7 +26,7 @@ export default function Board({ board, updateBoard }) {
 
     function handleClick(event) {
         updateBoard(event.target.value);
-        console.log(event.target.value);
+        //console.log(event.target.value);
     }
 
     return <div className='board'>{generateColumns(board)}</div>;

@@ -7,7 +7,8 @@ export default function App() {
     const y = 6;
     const empty = "";
     const player1 = "X";
-    const player2 = "O";
+    const player2 = "X";
+    const winCondition = 4;
 
     const arr = Array(x)
         .fill(empty)
@@ -32,8 +33,9 @@ export default function App() {
         setBoard(newBoard);
         setTurn(!turn);
 
-        if (checkVertical(x, y) >= 4 || checkHorizontal(x, y) >= 4) {
+        if (checkVertical(x, y) || checkHorizontal(x, y) || checkRise(x, y) || checkFall(x, y)) {
             console.log("Connect 4!");
+            //TODO make connected 4 tokens glow
         }
     }
 
@@ -48,8 +50,8 @@ export default function App() {
                 break;
             }
         }
-        console.log("down is " + count);
 
+        //console.log("down is " + count);
         return count;
     }
 
@@ -72,9 +74,57 @@ export default function App() {
                 break;
             }
         }
-        console.log("left and right is " + count);
 
-        return count;
+        //console.log("left and right is " + count);
+        return count >= winCondition;
+    }
+
+    function checkRise(x, y) {
+        let count = 0;
+        let token = turn ? player1 : player2;
+
+        for (let right = x, top = y; right < board.length && top >= 0; right++, top--) {
+            if (board[right][top] === token) {
+                count++;
+            } else {
+                break;
+            }
+        }
+
+        for (let left = x - 1, bottom = y + 1; left >= 0 && bottom < board[x].length; left--, bottom++) {
+            if (board[left][bottom] === token) {
+                count++;
+            } else {
+                break;
+            }
+        }
+
+        //console.log("rise is " + count);
+        return count >= winCondition;
+    }
+
+    function checkFall(x, y) {
+        let count = 0;
+        let token = turn ? player1 : player2;
+
+        for (let right = x, bottom = y; right < board.length && bottom < board[x].length; right++, bottom++) {
+            if (board[right][bottom] === token) {
+                count++;
+            } else {
+                break;
+            }
+        }
+
+        for (let left = x - 1, top = y - 1; left >= 0 && top >= 0; left--, top--) {
+            if (board[left][top] === token) {
+                count++;
+            } else {
+                break;
+            }
+        }
+
+        //console.log("fall is " + count);
+        return count >= winCondition;
     }
 
     return (
