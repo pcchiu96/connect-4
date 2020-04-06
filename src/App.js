@@ -1,12 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Board from "./Board.js";
 import "./App.css";
 
 export default function App() {
     const x = 7;
     const y = 6;
+    const size = x * y;
     const empty = "";
-    const player1 = "X";
+    const player1 = "O";
     const player2 = "X";
     const winCondition = 4;
 
@@ -16,26 +17,38 @@ export default function App() {
 
     const [board, setBoard] = useState([]);
     const [turn, setTurn] = useState(true);
+    const [counter, setCounter] = useState(1);
 
     useEffect(() => {
         setBoard(arr);
     }, []);
 
     function updateBoard(x) {
-        let newBoard = [...board];
-        let y = newBoard[x].length - 1;
-        for (; y >= 0; y--) {
-            if (newBoard[x][y] === empty) {
-                newBoard[x][y] = turn ? player1 : player2;
-                break;
-            }
-        }
-        setBoard(newBoard);
-        setTurn(!turn);
+        if (board[x][0] !== empty) {
+            console.log("Column full, pick another column");
+        } else {
+            let newBoard = [...board];
+            let y = newBoard[x].length - 1;
 
-        if (checkVertical(x, y) || checkHorizontal(x, y) || checkRise(x, y) || checkFall(x, y)) {
-            console.log("Connect 4!");
-            //TODO make connected 4 tokens glow
+            for (; y >= 0; y--) {
+                if (newBoard[x][y] === empty) {
+                    newBoard[x][y] = turn ? player1 : player2;
+                    break;
+                }
+            }
+
+            setBoard(newBoard);
+            setTurn(!turn);
+            setCounter(counter + 1);
+
+            if (checkVertical(x, y) || checkHorizontal(x, y) || checkRise(x, y) || checkFall(x, y)) {
+                console.log("Connect 4!");
+                //TODO make connected 4 tokens glow
+            }
+
+            if (counter === size) {
+                console.log("Game over");
+            }
         }
     }
 
@@ -52,7 +65,7 @@ export default function App() {
         }
 
         //console.log("down is " + count);
-        return count;
+        return count >= 4;
     }
 
     function checkHorizontal(x, y) {
