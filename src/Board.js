@@ -13,8 +13,8 @@ export default function Board({ board, updateBoard }) {
     }
 
     function generateHeight(column, index) {
-        return column.map(token => {
-            let color = "circle white";
+        return column.map((token) => {
+            let color = "circle";
             if (token === "O") {
                 color = "circle green";
             } else if (token === "X") {
