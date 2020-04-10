@@ -18,6 +18,7 @@ export default function App() {
     const [board, setBoard] = useState([]);
     const [turn, setTurn] = useState(true);
     const [counter, setCounter] = useState(1);
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
         setBoard(arr);
@@ -42,11 +43,14 @@ export default function App() {
             setCounter(counter + 1);
 
             if (checkVertical(x, y) || checkHorizontal(x, y) || checkRise(x, y) || checkFall(x, y)) {
+                let winner = turn ? "Player1" : "Player2";
+                setMessage("Game over! " + winner + " Won!");
                 console.log("Connect 4!");
                 //TODO make connected 4 tokens glow
             }
 
             if (counter === size) {
+                setMessage("Game over! Draw!");
                 console.log("Game over");
             }
         }
@@ -140,9 +144,16 @@ export default function App() {
         return count >= winCondition;
     }
 
+    function resetBoard() {
+        setBoard(arr);
+        setMessage("");
+    }
+
     return (
         <div className='connect4'>
             <Board board={board} updateBoard={updateBoard} />
+            <button onClick={resetBoard}>Restart</button>
+            <p>{message}</p>
         </div>
     );
 }
