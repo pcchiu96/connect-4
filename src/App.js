@@ -15,17 +15,21 @@ export default function App() {
         .fill(empty)
         .map(() => Array(y).fill(empty));
 
-    const [board, setBoard] = useState([]);
+    const [board, setBoard] = useState(arr);
     const [turn, setTurn] = useState(true);
+    const [game, setGame] = useState(true);
     const [counter, setCounter] = useState(1);
     const [message, setMessage] = useState("");
 
     useEffect(() => {
-        setBoard(arr);
-    }, []);
+        //setBoard(board);
+    }, board);
 
     function updateBoard(x) {
+        if (!game) return;
+
         if (board[x][0] !== empty) {
+            setMessage("Column full, pick another column");
             console.log("Column full, pick another column");
         } else {
             let newBoard = [...board];
@@ -41,15 +45,20 @@ export default function App() {
             setBoard(newBoard);
             setTurn(!turn);
             setCounter(counter + 1);
+            setMessage("Turn " + counter);
+            console.log("Token: " + counter);
 
             if (checkVertical(x, y) || checkHorizontal(x, y) || checkRise(x, y) || checkFall(x, y)) {
+                setGame(false);
                 let winner = turn ? "Player1" : "Player2";
                 setMessage("Game over! " + winner + " Won!");
                 console.log("Connect 4!");
+
                 //TODO make connected 4 tokens glow
             }
 
             if (counter === size) {
+                setGame(false);
                 setMessage("Game over! Draw!");
                 console.log("Game over");
             }
@@ -67,8 +76,7 @@ export default function App() {
                 break;
             }
         }
-
-        //console.log("down is " + count);
+        //console.log("vertical is " + count);
         return count >= 4;
     }
 
@@ -92,7 +100,7 @@ export default function App() {
             }
         }
 
-        //console.log("left and right is " + count);
+        //console.log("horizontal is " + count);
         return count >= winCondition;
     }
 
@@ -146,11 +154,14 @@ export default function App() {
 
     function resetBoard() {
         setBoard(arr);
+        setGame(true);
+        setCounter(1);
         setMessage("");
     }
 
     return (
         <div className='connect4'>
+            <header>Connect 4</header>
             <Board board={board} updateBoard={updateBoard} />
             <button onClick={resetBoard}>Restart</button>
             <p>{message}</p>

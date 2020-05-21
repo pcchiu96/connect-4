@@ -33,9 +33,5 @@ export default function Board({ board, updateBoard }) {
         updateBoard(event.target.value);
     }
 
-    return (
-        <div id={uuidv4()} className='board'>
-            {generateColumns(board)}
-        </div>
-    );
+    return <div className='board'>{generateColumns(board)}</div>;
 }
