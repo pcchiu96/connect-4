@@ -23,7 +23,7 @@ export default function App() {
 
     useEffect(() => {
         //setBoard(board);
-    }, board);
+    }, [board]);
 
     function updateBoard(x) {
         if (!game) return;

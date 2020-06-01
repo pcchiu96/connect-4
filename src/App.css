@@ -15,7 +15,7 @@ header {
 }
 
 .square {
-    border: 1px solid gray;
+    /* //border: 1px solid gray; */
     outline: none;
     width: 50px;
     height: 50px;
