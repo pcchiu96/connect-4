@@ -17,16 +17,16 @@ export default function App() {
 
     const [board, setBoard] = useState(arr);
     const [turn, setTurn] = useState(true);
-    const [game, setGame] = useState(true);
+    const [gameOn, setGame] = useState(true);
     const [counter, setCounter] = useState(1);
     const [message, setMessage] = useState("");
 
     useEffect(() => {
-        //setBoard(board);
+        //update the browser whenever board's value updates
     }, [board]);
 
     function updateBoard(x) {
-        if (!game) return;
+        if (!gameOn) return;
 
         if (board[x][0] !== empty) {
             setMessage("Column full, pick another column");
@@ -161,10 +161,15 @@ export default function App() {
 
     return (
         <div className='connect4'>
+            <a className='back' href='https://pcchiu96.github.io/portfolio'>
+                <i className='fa fa-arrow-circle-left' aria-hidden='true'></i>
+            </a>
             <header>Connect 4</header>
             <Board board={board} updateBoard={updateBoard} />
-            <button onClick={resetBoard}>Restart</button>
-            <p>{message}</p>
+            <button className='b-restart' onClick={resetBoard}>
+                Restart
+            </button>
+            <p className='message'>{message}</p>
         </div>
     );
 }

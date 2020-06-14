@@ -1,36 +1,34 @@
 import React from "react";
-import uuidv4 from "uuid/v4";
 
 export default function Board({ board, updateBoard }) {
     function generateColumns(board) {
         return board.map((row, index) => {
             return (
-                <div className='column' key={uuidv4()} value={index}>
+                <div className='column' key={index} onClick={() => handleClick(index)}>
                     {generateHeight(board[index], index)}
                 </div>
             );
         });
     }
 
-    function generateHeight(column, index) {
-        return column.map((token) => {
+    function generateHeight(column, columnIndex) {
+        return column.map((token, rowIndex) => {
             let color = "circle";
             if (token === "O") {
-                color = "circle green";
+                color = "circle yellow";
             } else if (token === "X") {
                 color = "circle red";
             }
             return (
-                <div className='square' key={uuidv4()}>
-                    <button className={color} value={index} onClick={handleClick}></button>
-                    <br />
-                </div>
+                <button key={columnIndex + "" + rowIndex} className={color}>
+                    {/* {columnIndex + "" + rowIndex} */}
+                </button>
             );
         });
     }
 
-    function handleClick(event) {
-        updateBoard(event.target.value);
+    function handleClick(index) {
+        updateBoard(index);
     }
 
     return <div className='board'>{generateColumns(board)}</div>;

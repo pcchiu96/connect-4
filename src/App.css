@@ -1,12 +1,48 @@
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("./connect4.jpeg");
+
+    /* Background image is centered vertically and horizontally at all times */
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    /* Background image is fixed in the viewport so that it doesn't move when 
+     the content's height is greater than the image's height */
+    background-attachment: fixed;
+
+    /* This is what makes the background image rescale based
+     on the container's size */
+    background-size: cover;
+
+    /* Set a background color that will be displayed
+     while the background image is loading */
+    background-color: #464646;
+}
+
 .connect4 {
-    width: 75%;
-    margin: 40px auto;
+    position: relative;
+    width: 80%;
+    margin: auto;
     text-align: center;
 }
 
+.fa {
+    font-size: 2em;
+    color: #fada5e;
+    position: absolute;
+    margin: 1em;
+    top: 0;
+    left: 0;
+}
+
+.fa:hover {
+    color: white;
+}
+
 header {
-    font-size: 32px;
-    margin: 20px 0;
+    font-size: 2em;
+    padding: 1em;
+
+    color: #fada5e;
 }
 
 .board {
@@ -14,37 +50,50 @@ header {
     justify-content: center;
 }
 
-.square {
-    /* //border: 1px solid gray; */
-    outline: none;
-    width: 50px;
-    height: 50px;
-    background-color: transparent;
-}
-
 .circle {
+    margin: 10px 5px;
+    display: block;
     outline: none;
-    border: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 50px;
-    background-color: rgba(0, 0, 0, 10%);
+    border: 2px white solid;
+    width: 4em;
+    height: 4em;
+    border-radius: 100%;
+
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 2px 0 #ffffff;
 }
 
-.square:hover {
-    background-color: rgba(0, 0, 0, 10%);
+.circle:hover {
+    background-color: rgba(0, 0, 0, 0%);
 }
 
-.square.focus,
-.square:active:focus {
-    outline: none;
+.circle.yellow {
+    background-color: #fada5e;
+}
+
+.circle.red {
+    background-color: #ff4141;
+}
+
+.b-restart {
+    background-color: transparent;
+    border: 2px white solid;
+    padding: 10px 15px;
+    margin: 1em;
+    border-radius: 5px;
+    transition: 0.3s;
+    font-size: 1em;
+
+    color: white;
+    cursor: pointer;
+}
+
+.b-restart:hover {
     background-color: white;
+    color: black;
 }
 
-.green {
-    background-color: green;
-}
-
-.red {
-    background-color: red;
+.message {
+    padding: 2em;
+    color: yellow;
 }
