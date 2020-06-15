@@ -27,7 +27,7 @@ body {
 
 .fa {
     font-size: 2em;
-    color: #fada5e;
+    color: #dbdbdb;
     position: absolute;
     margin: 1em;
     top: 0;
@@ -40,9 +40,8 @@ body {
 
 header {
     font-size: 2em;
+    font-weight: bold;
     padding: 1em;
-
-    color: #fada5e;
 }
 
 .board {
@@ -94,6 +93,14 @@ header {
 }
 
 .message {
-    padding: 2em;
-    color: yellow;
+    font-size: 1.5em;
+    color: white;
+}
+
+.yellow {
+    color: #fada5e;
+}
+
+.red {
+    color: #ff4141;
 }

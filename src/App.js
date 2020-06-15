@@ -19,11 +19,20 @@ export default function App() {
     const [turn, setTurn] = useState(true);
     const [gameOn, setGame] = useState(true);
     const [counter, setCounter] = useState(1);
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState("Player One's turn");
+    const [messageColor, setMessageColor] = useState("message yellow");
 
+    //update the board whenever board's value updates
+    useEffect(() => {}, [board]);
+
+    //update the message color whenever message's value updates
     useEffect(() => {
-        //update the browser whenever board's value updates
-    }, [board]);
+        if (turn) {
+            setMessageColor("message yellow");
+        } else {
+            setMessageColor("message red");
+        }
+    }, [turn]);
 
     function updateBoard(x) {
         if (!gameOn) return;
@@ -45,14 +54,14 @@ export default function App() {
             setBoard(newBoard);
             setTurn(!turn);
             setCounter(counter + 1);
-            setMessage("Turn " + counter);
-            console.log("Token: " + counter);
+            setMessage(`${!turn ? "Player One" : "Player Two"}'s Turn`);
+            // console.log("Token: " + counter);
 
             if (checkVertical(x, y) || checkHorizontal(x, y) || checkRise(x, y) || checkFall(x, y)) {
                 setGame(false);
-                let winner = turn ? "Player1" : "Player2";
-                setMessage("Game over! " + winner + " Won!");
-                console.log("Connect 4!");
+                let winner = turn ? "Player One" : "Player Two";
+                setMessage(`Game over! ${winner} Won!`);
+                // console.log("Connect 4!");
 
                 //TODO make connected 4 tokens glow
             }
@@ -60,7 +69,7 @@ export default function App() {
             if (counter === size) {
                 setGame(false);
                 setMessage("Game over! Draw!");
-                console.log("Game over");
+                // console.log("Game over");
             }
         }
     }
@@ -164,12 +173,28 @@ export default function App() {
             <a className='back' href='https://pcchiu96.github.io/portfolio'>
                 <i className='fa fa-arrow-circle-left' aria-hidden='true'></i>
             </a>
-            <header>Connect 4</header>
+            <header className='yellow'>
+                Connect <span className='red'>4</span>
+            </header>
+            <p className='message'>{message}</p>
             <Board board={board} updateBoard={updateBoard} />
             <button className='b-restart' onClick={resetBoard}>
                 Restart
             </button>
-            <p className='message'>{message}</p>
+            {/* <form>
+                <label>
+                    Columns
+                    <input type='text' name='columns' />
+                </label>
+                <br />
+                <label>
+                    Rows
+                    <input type='text' name='rows' />
+                </label>
+            </form>
+            <button className='b-restart' onClick={resetBoard}>
+                Restart
+            </button> */}
         </div>
     );
 }
