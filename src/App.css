@@ -99,6 +99,10 @@ header {
     color: white;
 }
 
+.turn-indicator span {
+    margin: 0 1em;
+}
+
 .yellow {
     color: #fada5e;
 }

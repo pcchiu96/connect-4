@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Board from "./Board.js";
 import "./App.css";
 
@@ -16,16 +16,12 @@ export default function App() {
         .map(() => Array(y).fill(empty));
 
     const [board, setBoard] = useState(arr);
-    const [turn, setTurn] = useState(false); //a toggle that cycles between p1 and p2
+    const [turn, setTurn] = useState(true); //a toggle that cycles between p1 and p2
     const [gameOn, setGame] = useState(true); //mainly to determine game ends before a winner
     const [counter, setCounter] = useState(1); //for terminate game when out of spaces
     const [message, setMessage] = useState("");
     const [history, setHistory] = useState([arr]);
-
-    useEffect(() => {
-        setTurn(!turn);
-        console.log(history);
-    }, [board]);
+    const [color, setColor] = useState("message");
 
     function updateBoard(x) {
         if (!gameOn) return;
@@ -34,6 +30,7 @@ export default function App() {
         let newBoard = board.map((columns) => columns.map((row) => row)); //make a brand new board to make changes to
         let token = turn ? player1 : player2;
         let player = turn ? "Player 1" : "Player 2";
+        let classColor = turn ? "message yellow" : "message red";
 
         //check token from bottom up
         let y = newBoard[x].length - 1;
@@ -45,38 +42,35 @@ export default function App() {
         }
 
         setBoard(newBoard);
+        setTurn(!turn);
         setCounter((prevCounter) => prevCounter + 1);
+        setMessage("");
         setHistory((prevBoards) => {
-            // return [...prevBoards, newBoard];
             return prevBoards.concat([newBoard]);
         });
+        setColor("message");
 
-        if (checkVertical(x, y, token, newBoard) || checkHorizontal(x, y, token, newBoard) || checkRise(x, y, token, newBoard) || checkFall(x, y, token, newBoard)) {
+        //get all direction counts
+        let horizontal = getHorizontalCount(x, y, token, newBoard);
+        let vertical = getVerticalCount(x, y, token, newBoard);
+        let rise = getRiseCount(x, y, token, newBoard);
+        let fall = getFallCount(x, y, token, newBoard);
+
+        //the game only ends if either player win or no more spaces left
+        if (vertical >= winCondition || horizontal >= winCondition || rise >= winCondition || fall >= winCondition) {
             setGame(false);
             setMessage(`Game over! ${player} Won!`);
-        } else if (counter === size) {
+            setColor(classColor);
+        } else if (counter - 1 === size) {
             setGame(false);
             setMessage("Game over! Draw!");
         }
     }
 
-    function checkVertical(x, y, token, board) {
+    function getHorizontalCount(x, y, token, board) {
         let count = 0;
 
-        for (; y < board[x].length; y++) {
-            if (board[x][y] === token) {
-                count++;
-            } else {
-                break;
-            }
-        }
-        // console.log("vertical is " + count);
-        return count >= winCondition;
-    }
-
-    function checkHorizontal(x, y, token, board) {
-        let count = 0;
-
+        //count right side
         for (let right = x; right < board.length; right++) {
             if (board[right][y] === token) {
                 count++;
@@ -85,6 +79,7 @@ export default function App() {
             }
         }
 
+        //count left side
         for (let left = x - 1; left >= 0; left--) {
             if (board[left][y] === token) {
                 count++;
@@ -92,14 +87,28 @@ export default function App() {
                 break;
             }
         }
-
-        // console.log("horizontal is " + count);
-        return count >= winCondition;
+        return count;
     }
 
-    function checkRise(x, y, token, board) {
+    function getVerticalCount(x, y, token, board) {
         let count = 0;
 
+        //count downwards
+        for (; y < board[x].length; y++) {
+            if (board[x][y] === token) {
+                count++;
+            } else {
+                break;
+            }
+        }
+
+        return count;
+    }
+
+    function getRiseCount(x, y, token, board) {
+        let count = 0;
+
+        //count top right
         for (let right = x, top = y; right < board.length && top >= 0; right++, top--) {
             if (board[right][top] === token) {
                 count++;
@@ -108,6 +117,7 @@ export default function App() {
             }
         }
 
+        //count bottom left
         for (let left = x - 1, bottom = y + 1; left >= 0 && bottom < board[x].length; left--, bottom++) {
             if (board[left][bottom] === token) {
                 count++;
@@ -116,13 +126,13 @@ export default function App() {
             }
         }
 
-        // console.log("rise is " + count);
-        return count >= winCondition;
+        return count;
     }
 
-    function checkFall(x, y, token, board) {
+    function getFallCount(x, y, token, board) {
         let count = 0;
 
+        //count bottom right
         for (let right = x, bottom = y; right < board.length && bottom < board[x].length; right++, bottom++) {
             if (board[right][bottom] === token) {
                 count++;
@@ -131,6 +141,7 @@ export default function App() {
             }
         }
 
+        //count top left
         for (let left = x - 1, top = y - 1; left >= 0 && top >= 0; left--, top--) {
             if (board[left][top] === token) {
                 count++;
@@ -139,27 +150,30 @@ export default function App() {
             }
         }
 
-        // console.log("fall is " + count);
-        return count >= winCondition;
+        return count;
     }
 
     function undoBoard() {
         if (counter === 1) return;
         setBoard(history[history.length - 2]);
+        setTurn(!turn);
+        setGame(true);
         setCounter((prevCounter) => prevCounter - 1);
-        setMessage("Undo 1 turn");
+        setMessage("");
         setHistory((prevHistory) => {
             return prevHistory.slice(0, prevHistory.length - 1);
         });
+        setColor("message");
     }
 
     function resetBoard() {
         setBoard(arr);
-        setTurn(false);
+        setTurn(true);
         setGame(true);
         setCounter(1);
         setMessage("");
         setHistory([arr]);
+        setColor("message");
     }
 
     return (
@@ -177,9 +191,11 @@ export default function App() {
             <button className='b-undo' onClick={undoBoard}>
                 Undo
             </button>
-            <p className={turn ? "message yellow" : "message red"}>{turn ? "P1" : "P2"}</p>
-            <p className='message'>Turn {counter}</p>
-            <p className='message'>{message}</p>
+            <p className='turn-indicator'>
+                <span className={turn ? "message yellow" : "message"}>P1</span>
+                <span className={turn ? "message" : "message red"}>P2</span>
+            </p>
+            <p className={color}>{message}</p>
         </div>
     );
 }
