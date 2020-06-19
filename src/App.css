@@ -57,8 +57,8 @@ header {
     display: block;
     outline: none;
     border: 2px white solid;
-    width: 2.5em;
-    height: 2.5em;
+    width: 3em;
+    height: 3em;
     border-radius: 100%;
 
     background-color: rgba(255, 255, 255, 0.1);
@@ -100,6 +100,7 @@ header {
 .message {
     font-size: 1.5em;
     color: white;
+    font-weight: bold;
 }
 
 .turn-indicator span {
