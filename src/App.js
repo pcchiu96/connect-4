@@ -178,13 +178,17 @@ export default function App() {
 
     return (
         <div className='connect4'>
-            <a className='back' href='https://pcchiu96.github.io/portfolio'>
-                <i className='fa fa-arrow-circle-left' aria-hidden='true'></i>
-            </a>
             <header className='yellow'>
-                Connect <span className='red'>4</span>
+                <a className='back' href='https://pcchiu96.github.io/portfolio'>
+                    <i className='fa fa-arrow-circle-left' aria-hidden='true'></i>
+                </a>
+                <div>
+                    {" "}
+                    Connect <span className='red'>4</span>
+                </div>
             </header>
             <Board board={board} updateBoard={updateBoard} />
+            <br></br>
             <button className='b-restart' onClick={resetBoard}>
                 Restart
             </button>

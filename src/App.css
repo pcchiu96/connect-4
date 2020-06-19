@@ -20,18 +20,18 @@ body {
 
 .connect4 {
     position: relative;
-    width: 80%;
+    width: 100%;
     margin: auto;
     text-align: center;
 }
 
 .fa {
-    font-size: 2em;
+    /* font-size: 2em; */
     color: #dbdbdb;
-    position: absolute;
-    margin: 1em;
-    top: 0;
-    left: 0;
+    /* position: absolute; */
+    /* margin: 1em; */
+    /* top: 0;
+    left: 0; */
 }
 
 .fa:hover {
@@ -42,10 +42,13 @@ header {
     font-size: 2em;
     font-weight: bold;
     padding: 1em;
+
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
 }
 
 .board {
-    display: flex;
+    display: inline-flex;
     justify-content: center;
 }
 
@@ -54,8 +57,8 @@ header {
     display: block;
     outline: none;
     border: 2px white solid;
-    width: 4em;
-    height: 4em;
+    width: 2.5em;
+    height: 2.5em;
     border-radius: 100%;
 
     background-color: rgba(255, 255, 255, 0.1);
@@ -109,4 +112,15 @@ header {
 
 .red {
     color: #ff4141;
+}
+
+@media (min-width: 1068px) {
+    .connect4 {
+        width: 80%;
+    }
+
+    .circle {
+        width: 4em;
+        height: 4em;
+    }
 }

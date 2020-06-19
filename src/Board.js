@@ -2,10 +2,10 @@ import React from "react";
 
 export default function Board({ board, updateBoard }) {
     function generateColumns(board) {
-        return board.map((row, index) => {
+        return board.map((column, columnIndex) => {
             return (
-                <div className='column' key={index} onClick={() => handleClick(index)}>
-                    {generateHeight(board[index], index)}
+                <div className='column' key={columnIndex} onClick={() => handleClick(columnIndex)}>
+                    {generateHeight(column, columnIndex)}
                 </div>
             );
         });
