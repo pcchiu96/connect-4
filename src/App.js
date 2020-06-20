@@ -57,7 +57,7 @@ export default function App() {
         let fall = getFallCount(x, y, token, newBoard);
 
         //the game only ends if either player win or no more spaces left
-        if (vertical >= winCondition || horizontal >= winCondition || rise >= winCondition || fall >= winCondition) {
+        if (horizontal >= winCondition || vertical >= winCondition || rise >= winCondition || fall >= winCondition) {
             setGame(false);
             setMessage(`Game over! ${player} Won!`);
             setColor(classColor);
@@ -153,7 +153,7 @@ export default function App() {
         return count;
     }
 
-    function undoBoard() {
+    const undoBoard = () => {
         if (counter === 1) return;
         setBoard(history[history.length - 2]);
         setTurn(!turn);
@@ -164,9 +164,9 @@ export default function App() {
             return prevHistory.slice(0, prevHistory.length - 1);
         });
         setColor("message");
-    }
+    };
 
-    function resetBoard() {
+    const resetBoard = () => {
         setBoard(arr);
         setTurn(true);
         setGame(true);
@@ -174,7 +174,7 @@ export default function App() {
         setMessage("");
         setHistory([arr]);
         setColor("message");
-    }
+    };
 
     return (
         <div className='connect4'>
