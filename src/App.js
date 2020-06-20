@@ -23,7 +23,7 @@ export default function App() {
     const [history, setHistory] = useState([arr]);
     const [color, setColor] = useState("message");
 
-    function updateBoard(x) {
+    const updateBoard = (x) => {
         if (!gameOn) return;
         if (board[x][0] !== empty) return setMessage("Column full, pick another column");
 
@@ -65,7 +65,7 @@ export default function App() {
             setGame(false);
             setMessage("Game over! Draw!");
         }
-    }
+    };
 
     function getHorizontalCount(x, y, token, board) {
         let count = 0;
