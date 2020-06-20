@@ -183,7 +183,6 @@ export default function App() {
                     <i className='fa fa-arrow-circle-left' aria-hidden='true'></i>
                 </a>
                 <div>
-                    {" "}
                     Connect <span className='red'>4</span>
                 </div>
             </header>
